@@ -209,25 +209,52 @@ export default function HypExtractor() {
     );
   };
 
+  // Add CSS to hide scrollbar on the main page
+  const hideScrollbarStyle = `
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    
+    html, body {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+    
+    /* Keep scrollbar only for the files area */
+    .custom-scrollbar::-webkit-scrollbar {
+      display: initial;
+      width: 4px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(var(--border), 0.2);
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(var(--accent), 0.5);
+      border-radius: 4px;
+    }
+  `;
+
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b border-[rgba(var(--border),0.4)] py-6 px-4 mb-6">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2 tracking-tighter">.hyp code extractor pro</h1>
-          <p className="text-gray-400">
-          </p>
+      <style jsx global>{hideScrollbarStyle}</style>
+      
+      <header className="border-b border-[rgba(var(--border),0.4)] py-4 px-4 mb-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-2xl font-bold tracking-tighter">.hyp code extractor pro</h1>
         </div>
       </header>
       
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 pb-10">
-        <div className="flex flex-col md:flex-row gap-8">
+      <main className="flex-1 max-w-4xl w-full mx-auto px-4 pb-8">
+        <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-1">
-            <div className="mb-4">
-              <h2 className="text-xl font-bold mb-3 tracking-tighter">select files</h2>
+            <div className="mb-3 text-center">
+              <h2 className="text-xl font-bold tracking-tighter">select files</h2>
             </div>
             
             <div 
-              className="file-drop-zone w-full p-8 bg-[rgb(var(--card))] flex flex-col items-center justify-center shadow-md mb-6 cursor-pointer hover:border-[rgba(var(--accent),0.6)] hover:bg-[rgba(var(--accent),0.05)]"
+              className="file-drop-zone w-full p-6 bg-[rgb(var(--card))] flex flex-col items-center justify-center shadow-md mb-4 cursor-pointer hover:border-[rgba(var(--accent),0.6)] hover:bg-[rgba(var(--accent),0.05)]"
               onDrop={onDrop}
               onDragOver={onDragOver}
               onClick={() => fileInputRef.current?.click()}
@@ -242,13 +269,13 @@ export default function HypExtractor() {
                 id="file-input"
               />
               
-              <p className="mb-4 text-gray-300">browse for .hyp files</p>
+              <p className="mb-3 text-gray-300">browse for .hyp files</p>
               <p className="text-gray-400">or drag and drop files here</p>
             </div>
 
             {files.length > 0 && (
-              <div className="mt-6">
-                <div className="flex items-center justify-between mb-4">
+              <div className="mt-4">
+                <div className="flex items-center justify-between mb-3">
                   <h2 className="text-xl font-bold tracking-tighter">review files</h2>
                   <button 
                     onClick={clearFiles}
@@ -259,13 +286,13 @@ export default function HypExtractor() {
                 </div>
                 
                 <div className="bg-[rgb(var(--card))] rounded-md overflow-hidden border border-[rgba(var(--border),0.6)] shadow-md">
-                  <div className="bg-[rgba(var(--border),0.3)] px-4 py-2 text-sm text-gray-300 border-b border-[rgba(var(--border),0.6)]">
+                  <div className="bg-[rgba(var(--border),0.3)] px-4 py-2 text-sm text-gray-300 border-b border-[rgba(var(--border),0.6)] text-center">
                     {files.length} file{files.length !== 1 ? 's' : ''} selected
                   </div>
-                  <div className="max-h-[280px] overflow-y-auto custom-scrollbar">
+                  <div className="max-h-[240px] overflow-y-auto custom-scrollbar">
                     {files.map((file, index) => (
                       <div key={index} className="file-item flex justify-between items-center hover:bg-[rgba(var(--border),0.2)]">
-                        <span className="text-gray-300 text-sm truncate flex-1 font-mono">{file.name}</span>
+                        <span className="text-gray-300 text-sm truncate flex-1 font-mono text-center">{file.name}</span>
                         <span 
                           onClick={() => removeFile(index)}
                           className="ml-2 text-gray-300 hover:text-gray-100 text-sm cursor-pointer select-none"
@@ -281,8 +308,8 @@ export default function HypExtractor() {
           </div>
           
           <div className="flex-1">
-            <div className="mb-4">
-              <p className="text-gray-400 text-sm mb-4">
+            <div className="mb-3">
+              <p className="text-gray-400 text-sm mb-3 text-center">
                 {files.length === 0 
                   ? "add files on the left, then click the extract button" 
                   : files.length === 1 
@@ -292,12 +319,12 @@ export default function HypExtractor() {
             </div>
             
             <div>
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-4">
                 <ExtractButton className="large-button" />
               </div>
               
               {status && (
-                <div className={`status-banner w-full text-sm rounded-md shadow-md ${
+                <div className={`status-banner w-full text-sm rounded-md shadow-md text-center ${
                   status.includes("error") 
                     ? "error" 
                     : status.includes("success") 
@@ -312,25 +339,27 @@ export default function HypExtractor() {
         </div>
       </main>
       
-      <footer className="text-center text-gray-500 text-sm py-6 border-t border-[rgba(var(--border),0.4)] mt-10">
-        <a 
-          href="https://github.com/Crufro/hyp-code-extract" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="inline-block text-white hover:text-white/80 transition-colors duration-200"
-          aria-label="View source on GitHub"
-        >
-          <svg 
-            viewBox="0 0 24 24" 
-            width="24" 
-            height="24" 
-            fill="#FFFFFF"
-            className="hover:opacity-80 transition-opacity duration-200"
+      <div className="mt-auto">
+        <footer className="text-center text-gray-500 text-sm py-4 border-t border-[rgba(var(--border),0.4)] mt-8">
+          <a 
+            href="https://github.com/Crufro/hyp-code-extract" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-block text-white hover:text-white/80 transition-colors duration-200"
+            aria-label="View source on GitHub"
           >
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-          </svg>
-        </a>
-      </footer>
+            <svg 
+              viewBox="0 0 24 24" 
+              width="24" 
+              height="24" 
+              fill="#FFFFFF"
+              className="hover:opacity-80 transition-opacity duration-200"
+            >
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+          </a>
+        </footer>
+      </div>
     </div>
   );
 }
