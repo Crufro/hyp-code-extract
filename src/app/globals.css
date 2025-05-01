@@ -1,26 +1,234 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --accent: 29, 161, 242;
+  --accent-light: 85, 182, 255;
+  --background: 18, 18, 23;
+  --foreground: 240, 240, 245;
+  --border: 45, 45, 55;
+  --border-light: 60, 60, 75;
+  --card: 25, 25, 35;
+  --card-hover: 30, 30, 45;
+  --success: 46, 204, 113;
+  --error: 231, 76, 60;
+  --info: 52, 152, 219;
+  --hover: 35, 35, 45;
+  --section-spacing: 32px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+  font-family: 'Fira Code', monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  font-family: 'Fira Code', monospace;
+}
+
+/* Enhanced button styling */
+button, 
+.button {
+  font-family: 'Fira Code', monospace;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, rgba(var(--accent), 0.9), rgba(var(--accent), 1));
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(var(--accent), 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.primary-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+  border-radius: 6px 6px 0 0;
+}
+
+.primary-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(var(--accent), 0.4), 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.primary-button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(var(--accent), 0.2), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.primary-button:disabled {
+  background: linear-gradient(135deg, rgb(60, 60, 70), rgb(50, 50, 60));
+  color: rgb(130, 130, 140);
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.secondary-button {
+  background: rgba(var(--border), 0.3);
+  color: rgb(200, 200, 210);
+  border: 1px solid rgba(var(--border-light), 0.5);
+  padding: 8px 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.secondary-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  border-radius: 5px 5px 0 0;
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: rgba(var(--border-light), 0.5);
+  border-color: rgba(var(--border-light), 0.8);
+  color: rgb(230, 230, 240);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.secondary-button:active:not(:disabled) {
+  background: rgba(var(--border), 0.6);
+  transform: translateY(1px);
+}
+
+.small-button {
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+.normal-button {
+  font-size: 14px;
+  padding: 9px 16px;
+}
+
+.large-button {
+  font-size: 16px;
+  padding: 12px 20px;
+}
+
+button:focus, 
+.button:focus,
+input:focus {
+  outline: 2px solid rgba(var(--accent), 0.5);
+  outline-offset: 2px;
+}
+
+input,
+button,
+.button {
+  font-size: 14px;
+}
+
+.file-drop-zone {
+  border: 2px dashed rgba(var(--border-light), 0.8);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.file-drop-zone:hover {
+  border-color: rgba(var(--accent), 0.6);
+  background: rgba(var(--accent), 0.05);
+}
+
+.file-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(var(--border), 0.5);
+  transition: background-color 0.15s ease;
+}
+
+.file-item:last-child {
+  border-bottom: none;
+}
+
+.file-item:hover {
+  background-color: rgba(var(--card-hover), 0.5);
+}
+
+.status-banner {
+  border-left: 4px solid;
+  padding: 16px;
+  border-radius: 6px;
+}
+
+.status-banner.error {
+  border-color: rgb(var(--error));
+  background: rgba(var(--error), 0.15);
+}
+
+.status-banner.success {
+  border-color: rgb(var(--success));
+  background: rgba(var(--success), 0.15);
+}
+
+.status-banner.info {
+  border-color: rgb(var(--info));
+  background: rgba(var(--info), 0.15);
+}
+
+section + section {
+  margin-top: var(--section-spacing);
+}
+
+.section-title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: rgb(var(--foreground));
+  font-weight: 700;
+  border-bottom: 1px solid rgba(var(--border), 0.3);
+  padding-bottom: 0.5rem;
+  font-family: 'Fira Code', monospace;
+}
+
+/* Custom Scrollbar Styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(var(--border), 0.2);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent), 0.4);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--accent), 0.6);
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--accent), 0.4) rgba(var(--border), 0.2);
 }
