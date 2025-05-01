@@ -311,7 +311,7 @@ export default function HypExtractor() {
             <div className="mb-3">
               <p className="text-gray-400 text-sm mb-3 text-center">
                 {files.length === 0 
-                  ? "add files on the left, then click the extract button" 
+                  ? "add files, then click the extract button" 
                   : files.length === 1 
                     ? "click extract to download the javascript from your file" 
                     : `click extract to download javascript from ${files.length} files as a zip`}
